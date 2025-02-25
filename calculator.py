@@ -1,9 +1,10 @@
 import tkinter as tk
 
 def on_button_click(value):
+    curretn_text = entry_field.get()
     if value == "=":
         try:
-            result = eval(entry_field.get())
+            result = eval(curretn_text)
             entry_field.delete(0, tk.END)
             entry_field.insert(tk.END, str(result))
         except:
@@ -12,6 +13,8 @@ def on_button_click(value):
     elif value == "C":
         entry_field.delete(0, tk.END)
     else:
+        if curretn_text and curretn_text[-1] in "+-*/" and value in "+-*/":
+            return
         entry_field.insert(tk.END, value)
 
 root = tk.Tk()
