@@ -27,7 +27,6 @@ def on_button_click(value):
 
     # Delete the last character from the entry field
     elif value == "DEL":
-        current_text = entry_field.get()
         if len(current_text) > 0:
             entry_field.delete(len(current_text)-1, ctk.END)
     
