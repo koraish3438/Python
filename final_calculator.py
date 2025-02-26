@@ -1,15 +1,16 @@
 import customtkinter as ctk
-import math
+import re
 
 # Function to handle button clicks
 def on_button_click(value):
     current_text = entry_field.get()
     
-    # Replace x² with x**2 
-    current_text = current_text.replace('x²', '**2').replace('√', '(1/2)*') 
+    # Replace x² with x**2 and Replace √ with square root
+    current_text = current_text.replace('x²', '**2')
     
-    # Replace √ with the correct expression for square root
-
+    # Replace √<number> with (<number>**(1/2))
+    current_text = re.sub(r'√(\d+)', r'(\1**(1/2))', current_text)
+    
     if value == "=":
         try:
             # Evaluate the expression
@@ -20,14 +21,17 @@ def on_button_click(value):
             entry_field.delete(0, ctk.END)
             entry_field.insert(ctk.END, "ERROR")
     
+    # Clear the entry field
     elif value == "C":
         entry_field.delete(0, ctk.END)
 
+    # Delete the last character from the entry field
     elif value == "DEL":
         current_text = entry_field.get()
         if len(current_text) > 0:
             entry_field.delete(len(current_text)-1, ctk.END)
     
+    # Insert the pressed button value into the entry field
     else:
         entry_field.insert(ctk.END, value)
         
@@ -38,6 +42,7 @@ def on_button_click(value):
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+# Create main window and title
 root = ctk.CTk()
 root.title("Calculator")
 
